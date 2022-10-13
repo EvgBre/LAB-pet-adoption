@@ -240,3 +240,25 @@ const pets = [
       imageUrl: "http://lsae2.iypcdn.com/static//modules/uploads/photos/language1/dino-live-22.jpg?119"
     }
   ];
+//   console.log("Here are all the pet's names:")
+// for (let i = 0; i < pets.length; i++) {
+// console.log(pets[i].name)
+// }
+
+const rootDiv = document.getElementById("root");
+
+for (let i=0; i<pets.length; i++) {
+  const pet=pets[i];
+const bootStrapCardString = `
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">${pet.name}</h5>
+    <img src="${pet.imageUrl}" onerror=“this.src='images/missingimg-1.jpeg'" class="card-img-top" alt="A picture of a ${pet.type}">
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">${pet.specialSkill}</li>
+    <li class="list-group-item">${pet.type}</li>
+  </ul>
+</div>`;
+rootDiv.innerHTML+=bootStrapCardString;
+}
