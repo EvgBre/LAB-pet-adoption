@@ -165,7 +165,7 @@ const pets = [
       color: "Red",
       specialSkill: "Owns a Nintendo Power Glove.",
       type: "dino",
-      imageUrl: "https://img.buzzfeed.com/buzzfeed-static/static/2015-11/2/12/enhanced/webdr15/anigif_enhanced-29802-1446485228-10.gif?crop=250:165;0,0&downsize=715"
+      imageUrl: "https://pbs.twimg.com/media/Cw_kMFLUkAApDmM.jpg"
     },
     {
         id: 22,
@@ -253,12 +253,101 @@ const bootStrapCardString = `
 <div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">${pet.name}</h5>
-    <img src="${pet.imageUrl}" onerror=“this.src='images/missingimg-1.jpeg'" class="card-img-top" alt="A picture of a ${pet.type}">
+    <img src="${pet.imageUrl}" onerror="this.src='images/missingimg-1.jpeg'" class="card-img-top" alt="A picture of a ${pet.type}">
   </div>
   <ul class="list-group list-group-flush">
+    <li class="list-group-item">${pet.color}</li>
     <li class="list-group-item">${pet.specialSkill}</li>
-    <li class="list-group-item">${pet.type}</li>
+    <li class="list-group-item" id="list-type">${pet.type}</li>
   </ul>
 </div>`;
 rootDiv.innerHTML+=bootStrapCardString;
 }
+
+const renderToDom = (divId, htmlToRender) => {
+  const selectedDiv = document.querySelector(divId);
+  selectedDiv.innerHTML = htmlToRender;
+};
+
+const cardsOnDom = (array) => {
+  let domString = "";
+  for (const pet of array) {
+    domString += `
+    <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">${pet.name}</h5>
+    <img src="${pet.imageUrl}" onerror="this.src='images/missingimg-1.jpeg'" class="card-img-top" alt="A picture of a ${pet.type}">
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">${pet.color}</li>  
+    <li class="list-group-item">${pet.specialSkill}</li>
+    <li class="list-group-item">${pet.type}</li>
+  </ul>
+</div>`;
+  }
+  renderToDom("#root", domString);
+};
+const filter = (array, typeString) => {
+  const typeArray = []; //Filters terms with specific color
+
+for (const member of array) {
+  if (member.type === typeString) {
+    typeArray.push(member);
+  }
+}; //Goes through array and adds qualifying member to array
+
+return typeArray;
+}
+
+const showCatsButton = document.querySelector("#show-cats");
+const showDogsButton = document.querySelector("#show-dogs");
+const showDinosButton = document.querySelector("#show-dinos");
+const showAllButton = document.querySelector("#show-all");
+
+showCatsButton.addEventListener('click', () => {
+  const kitties = filter(pets, 'cat');
+  cardsOnDom(kitties);
+});
+showDogsButton.addEventListener('click', () => {
+  const puppies = filter(pets, 'dog');
+  cardsOnDom(puppies);
+});
+showDinosButton.addEventListener('click', () => {
+  const saurus = filter(pets, 'dino');
+  cardsOnDom(saurus);
+});
+showAllButton.addEventListener('click', () => {
+  cardsOnDom(pets);
+});
+
+const form = document.querySelector('form');
+
+const addPet = (e) => {
+  e.preventDefault(); // EVERY TIME YOU CREATE A FORM
+
+  const newPetObj = {
+    id: pets.length + 1,
+    name: document.querySelector("#name").value,
+    color: document.querySelector("#color").value,
+    specialSkill: document.querySelector("#specialSkill").value,
+    type: document.querySelector("#type").value.toLowerCase(),
+    imageUrl: document.querySelector("#image").value
+  }
+  console.log(newPetObj)
+  pets.push(newPetObj);
+  cardsOnDom(pets);
+  form.reset();
+}
+form.addEventListener('submit', addPet);
+
+// let colorBox = function () {
+//   let ptype = [i];
+
+//   if (ptype = 'dog') {
+//     document.getElementById("list-type").style.backgroundColor = '#A1E6E8';
+//   } else if (ptype = 'cat') {
+//     document.getElementById("list-type").style.backgroundColor = '#A1E8A7';
+//   } else if (ptype = 'dino') {
+//     document.getElementById("list-type").style.backgroundColor = '#E9C690';
+//   }
+// }

@@ -1,4 +1,38 @@
 #root {
     display: flex;
     flex-wrap: wrap;
+    margin: auto;
+    margin-bottom: 2px;
+}
+.center {
+    display: flex;
+    padding: 1px;
+    margin: auto;
+}
+.btn {
+    margin-bottom: 10px;
+    margin-left: 50px;
+    length: 100px;
+}
+.card {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3px;
+}
+form {
+    width: 50%;
+    justify-content: center;
+    margin-left: 10px;
+}
+.btn.btn-success {
+    display: block;
+    justify-content: center;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+.list-group-item {
+    text-align: center;
+}
+.card-title {
+    text-align: center;
 }
