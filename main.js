@@ -61,7 +61,7 @@ const pets = [
       color: "Grey",
       specialSkill: "Comfortable in the outdoors for up to eight hours.",
       type: "dino",
-      imageUrl: "http://www.theouthousers.com/images/jck//ThanosCopter/news/grumpasaur.jpg"
+      imageUrl: "https://cdn.vox-cdn.com/thumbor/ZIYdrCzy2EfRthlAZ0GYzsBLTxQ=/1400x788/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19266645/a_primal_evolution_talking_to_cartoon_legend_genndy_tartakovsky_2.jpg"
     },
     {
       id: 9,
@@ -133,7 +133,7 @@ const pets = [
       color: "Yellow",
       specialSkill: "Does not freak out if you haven’t seen his favorite movie (The Big Lebowski).",
       type: "cat",
-      imageUrl: "http://www.funnycatsite.com/pictures/Close_Up_Yawn.jpg"
+      imageUrl: "https://i.pinimg.com/736x/b4/48/66/b448661c61c2abdf8768962ea231c612--crazy-cats-big-cats.jpg"
     },
     {
       id: 18,
@@ -165,7 +165,7 @@ const pets = [
       color: "Red",
       specialSkill: "Owns a Nintendo Power Glove.",
       type: "dino",
-      imageUrl: "https://pbs.twimg.com/media/Cw_kMFLUkAApDmM.jpg"
+      imageUrl: "https://i.pinimg.com/236x/cc/44/20/cc44209e7e7ca6b74ef8d6124269b282.jpg"
     },
     {
         id: 22,
@@ -189,7 +189,7 @@ const pets = [
       color: "Brown",
       specialSkill: "Participates in karaoke but does not force others to go out to karaoke.",
       type: "dog",
-      imageUrl: "http://www.dogbreedplus.com/dog_breeds/images/basset-hound-4.jpg"
+      imageUrl: "https://thumbs.dreamstime.com/b/portrait-border-collie-dog-singing-front-microphone-214303446.jpg"
     },
     {
       id: 25,
@@ -237,7 +237,7 @@ const pets = [
       color: "Red",
       specialSkill: "Doesn’t get weirded out by the word “moist.”",
       type: "dino",
-      imageUrl: "http://lsae2.iypcdn.com/static//modules/uploads/photos/language1/dino-live-22.jpg?119"
+      imageUrl: "https://www.meme-arsenal.com/memes/526f69d1f56e2b93309334759b757308.jpg"
     }
   ];
 //   console.log("Here are all the pet's names:")
@@ -252,13 +252,14 @@ for (let i=0; i<pets.length; i++) {
 const bootStrapCardString = `
 <div class="card" style="width: 18rem;">
   <div class="card-body">
-    <h5 class="card-title">${pet.name}</h5>
+    <h5 class="card-header">${pet.name}</h5>
     <img src="${pet.imageUrl}" onerror="this.src='images/missingimg-1.jpeg'" class="card-img-top" alt="A picture of a ${pet.type}">
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">${pet.color}</li>
     <li class="list-group-item">${pet.specialSkill}</li>
     <li class="list-group-item" id="list-type">${pet.type}</li>
+    <button class="btn btn-danger remove-me" id="delete--${pet.id}">I found a home!</button>
   </ul>
 </div>`;
 rootDiv.innerHTML+=bootStrapCardString;
@@ -275,13 +276,14 @@ const cardsOnDom = (array) => {
     domString += `
     <div class="card" style="width: 18rem;">
   <div class="card-body">
-    <h5 class="card-title">${pet.name}</h5>
+    <h5 class="card-header">${pet.name}</h5>
     <img src="${pet.imageUrl}" onerror="this.src='images/missingimg-1.jpeg'" class="card-img-top" alt="A picture of a ${pet.type}">
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">${pet.color}</li>  
     <li class="list-group-item">${pet.specialSkill}</li>
     <li class="list-group-item">${pet.type}</li>
+    <button class="btn btn-danger remove-me" id="delete--${pet.id}">I found a home!</button>
   </ul>
 </div>`;
   }
@@ -351,3 +353,32 @@ form.addEventListener('submit', addPet);
 //     document.getElementById("list-type").style.backgroundColor = '#E9C690';
 //   }
 // }
+// 1. Target the app div
+const app = document.querySelector("#root");
+
+// 2. Add an event listener to capture clicks
+
+app.addEventListener('click', (e) => {
+  // console.log(e.target.id);
+  
+// 3. check e.target.id includes "delete"
+  if (e.target.id.includes("delete")) {
+    // destructuring: https://github.com/orgs/nss-evening-web-development/discussions/11
+    const [, id] = e.target.id.split("--");
+
+// 4. add logic to remove from array
+    // .findIndex is an array method
+    const index = pets.findIndex(e => e.id === Number(id));
+
+    // .splice modifies the original array
+    pets.splice(index, 1);
+
+// 5. Repaint the DOM with the updated array
+    cardsOnDom(pets);
+  }
+});
+
+const startApp = () => {
+  cardsOnDom(pets);
+  e(); // ALWAYS LAST
+}
